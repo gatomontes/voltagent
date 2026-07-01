@@ -1,3 +1,5 @@
 declare module "@voltagent/server-hono" {
-  export function honoServer(...args: unknown[]): unknown;
+  import type { ServerProviderFactory } from "@voltagent/core";
+
+  export function honoServer(...args: unknown[]): ServerProviderFactory;
 }

@@ -2,6 +2,7 @@ import { Agent, Memory, VoltAgent } from "@voltagent/core";
 import { LibSQLMemoryAdapter, LibSQLVectorAdapter } from "@voltagent/libsql";
 import { createPinoLogger } from "@voltagent/logger";
 import { honoServer } from "@voltagent/server-hono";
+import { imperiumMissionWorkflow } from "./imperium-workflow";
 
 // Create logger
 const logger = createPinoLogger({
@@ -26,6 +27,7 @@ const agent = new Agent({
 
 new VoltAgent({
   agents: { agent },
+  workflows: { imperiumMissionWorkflow },
   server: honoServer(),
   logger,
 });

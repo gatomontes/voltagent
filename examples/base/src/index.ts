@@ -2,7 +2,7 @@ import { Agent, Memory, VoltAgent } from "@voltagent/core";
 import { LibSQLMemoryAdapter, LibSQLVectorAdapter } from "@voltagent/libsql";
 import { createPinoLogger } from "@voltagent/logger";
 import { honoServer } from "@voltagent/server-hono";
-import { imperiumMissionWorkflow } from "./imperium-workflow";
+import { imperiumMissionWorkflow } from "./imperium-workflow.js";
 
 // Create logger
 const logger = createPinoLogger({

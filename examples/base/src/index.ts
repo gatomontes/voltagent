@@ -27,7 +27,7 @@ const agent = new Agent({
 
 new VoltAgent({
   agents: { agent },
-  workflows: { imperiumMissionWorkflow },
+  workflows: { "imperium-mission-demo": imperiumMissionWorkflow },
   server: honoServer(),
   logger,
 });

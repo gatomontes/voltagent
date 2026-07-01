@@ -1,20 +1,22 @@
 import { andThen, createWorkflow } from "@voltagent/core";
 import { z } from "zod";
 
-const imperiumMissionInput = z.object({
-  mission_id: z.string().optional(),
-  campaign_id: z.string().optional(),
-  payload: z
-    .object({
-      task: z.string().optional(),
-    })
-    .passthrough()
-    .optional(),
-  capabilities: z.array(z.string()).optional(),
-  constraints: z.record(z.unknown()).optional(),
-  governance_context: z.record(z.unknown()).optional(),
-  correlation_id: z.string().optional(),
-});
+const imperiumMissionInput = z
+  .object({
+    mission_id: z.string().optional(),
+    campaign_id: z.string().optional(),
+    payload: z
+      .object({
+        task: z.string().optional(),
+      })
+      .passthrough()
+      .optional(),
+    capabilities: z.array(z.string()).optional(),
+    constraints: z.record(z.unknown()).optional(),
+    governance_context: z.record(z.unknown()).optional(),
+    correlation_id: z.string().optional(),
+  })
+  .passthrough();
 
 const imperiumMissionResult = z.object({
   status: z.literal("completed"),
@@ -43,9 +45,12 @@ export const imperiumMissionWorkflow = createWorkflow(
   },
   andThen({
     id: "return-executor-contract-result",
-    execute: async ({ data }) => {
-      const missionId = data.mission_id ?? "mission-unknown";
-      const task = data.payload?.task ?? "No task provided.";
+    execute: async (context) => {
+      const data = context.data ?? {};
+      const missionId = typeof data.mission_id === "string" ? data.mission_id : "mission-unknown";
+      const payload = typeof data.payload === "object" && data.payload !== null ? data.payload : {};
+      const task =
+        "task" in payload && typeof payload.task === "string" ? payload.task : "No task provided.";
 
       return {
         status: "completed" as const,
